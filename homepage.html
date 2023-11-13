@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+
+        }
+
+        .header {
+            background-color: #ffffff;
+            padding: 10px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .content {
+            text-align: center;
+            margin-top: 30vh;
+        }
+
+        .sign-out {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .vertical-center {
+            display: flex;
+            align-items: center;
+            padding: 10px 40px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #f8f9fa;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <div class="header">
+        <div class="logout-btn">
+             <button href="/login" class="vertical-center">
+                LOG-OUT
+             </button>
+
+             <div class="vertical-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="35" fill="white"
+                    class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                    <path
+                        d="M6.854 1.146a.5.5 0 0 1 .708 0L10 3.293V2a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1v-1.293l-2.146 2.147a.5.5 0 0 1-.708 0 .5.5 0 0 1 0-.708L9.293 9.5H1a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h8.293l-2.147-2.146a.5.5 0 0 1 0-.708z" />
+                </svg> 
+        </div>
+    </div> -->
+
+    <div class="content">
+        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="#28a745" class="bi bi-check-circle-fill"
+            viewBox="0 0 16 16">
+            <path
+                d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm4.83 3.97a.53.53 0 0 0-.77 0L7 8.23 5.47 6.7a.5.5 0 0 0-.7.7l2.5 2.5a.6.6 1 1 1 0 0l5-5a.5. 1 1 11 0-.7.53.53 0 0 0-.04-.04z" />
+        </svg>
+        <p>You are successfully logged in.</p>
+        <a href="/login" class="sign-out">Sign Out</a>
+
+    </div>
+    </div>
+</body>
+
+</html>
