@@ -1,20 +1,20 @@
 
-import mysql from 'mysql';
+import mysql from 'mysql2';
 
 import dotenv from 'dotenv';
 
 import express from 'express';
 
-//import bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 
 
 // configuring .env to node.js
 
-//dotenv.config()
+dotenv.config();
 
 //setting express environment
-const app = express();
 
+const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -22,10 +22,10 @@ app.use(express.json());
 // connecting database
 const connection = mysql.createConnection(
     {
-        host:'localhost',
-        user: 'root',
-        password: '12345678',
-        database: 'user_authentication',
+        host: process.env.db_host,
+        user: process.env.db_user,
+        password: process.env.db_password,
+        database: process.env.db_database,
     }
 )
 
@@ -39,13 +39,13 @@ connection.connect((err) => {
 });
 
 
-//sending index.html to sever 
+//sending index.html to sever
 
 app.get('/login', (req, res) => {
     res.sendFile(process.cwd() + '/index.html');
 })
 
-//sending homepage.html to sever 
+//sending homepage.html to sever
 
 app.get('/homepage', (req, res) => {
     res.sendFile(process.cwd() + '/homepage.html');
@@ -60,16 +60,25 @@ app.post('/login', (req, res) => {
         }
         else {
             if (results.length > 0) {
-                res.json({success: true, message :'logged in true'})
+                const hashPassword = results[0].password;
+                bcrypt.compare(password, hashPassword, (err, passwordMatch) => {
+                    if (passwordMatch) {
+                        res.json({ success: true, message: 'logged in true' })
+                    }
+                    else {
+                        res.status(401).json({ success: false, message: 'invalid user or login' })
+                    }
+                })
+
             }
             else {
-                res.status(401).json({ success: false, message: 'invalid user or login' })
+                res.status(401).json({ success: false })
             }
         }
     })
 })
 
-//sending registration.html to sever 
+//sending registration.html to sever
 app.get('/registration', (req, res) => {
     res.sendFile(process.cwd() + '/registration.html');
 })
@@ -78,13 +87,20 @@ app.get('/registration', (req, res) => {
 app.post('/registration', (req, res) => {
     const { firstname, lastname, email, password, confirm } = req.body
 
+    bcrypt.hash(password, 10, (err, hashPassword) => {
 
-    connection.query('insert into user(firstname, lastname, email, password, confirm) VALUES(?, ?, ?, ?, ?)', [firstname, lastname, email, password, confirm], (error, results) => {
-        if (error) {
-            res.json({ success: false, message: 'Failed To Register!' })
+        if (err) {
+            res.status(500).json({ success: false })
         }
         else {
-            res.json({ success: true });
+            connection.query('insert into user(firstname, lastname, email, Password, confirm) VALUES(?, ?, ?, ?, ?)', [firstname, lastname, email, password, confirm], (error, results) => {
+                if (error) {
+                    res.json({ success: false, message: 'Failed To Register!' })
+                }
+                else {
+                    res.json({ success: true });
+                }
+            })
         }
     })
 });
